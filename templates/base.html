@@ -103,6 +103,29 @@
             <!-- /.search form -->
             <!-- sidebar menu: : style can be found in sidebar.less -->
             <ul class="sidebar-menu">
+            <li class="treeview {% if '/school/' in request.path %}active{% endif %}">
+                    <a href="#">
+                        <i class="fa fa-line-chart"></i> <span>学员管理</span>
+                        <span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li
+                                {% if '/school_dash' in request.path %}
+                                    class="active"
+                                {% endif %}><a href="{% url 'school_dash' %}"><i class="fa fa-circle-o"></i>期次管理</a>
+                        </li>
+                        <li
+                                {% if '/student_imports' in request.path %}
+                                    class="active"
+                                {% endif %}><a href="{% url 'student_imports' %}"><i class="fa fa-circle-o"></i>student_imports</a>
+                        </li>
+                        <li
+                                {% if '/org_imports' in request.path %}
+                                    class="active"
+                                {% endif %}><a href="{% url 'org_imports' %}"><i class="fa fa-circle-o"></i>org_imports</a>
+                        </li>
+                    </ul>
+                </li>
                 <li class="treeview {% if '/user/' in request.path %}active{% endif %}">
                     <a href="#">
                         <i class="fa fa-line-chart"></i> <span>账号管理</span>
@@ -119,6 +142,16 @@
                                 {% if '/change_password' in request.path %}
                                     class="active"
                                 {% endif %}><a href="{% url 'change_password' %}"><i class="fa fa-circle-o"></i>修改密码</a>
+                        </li>
+                        <li
+                                {% if '/student_imports' in request.path %}
+                                    class="active"
+                                {% endif %}><a href="{% url 'student_imports' %}"><i class="fa fa-circle-o"></i>student_imports</a>
+                        </li>
+                        <li
+                                {% if '/org_imports' in request.path %}
+                                    class="active"
+                                {% endif %}><a href="{% url 'org_imports' %}"><i class="fa fa-circle-o"></i>org_imports</a>
                         </li>
                     </ul>
                 </li>

@@ -1,7 +1,7 @@
 from django.forms import ModelForm
 from django import forms
 
-from edu.models import School
+from edu.models import School, Import_Summary
 
 
 class UserCreatForm(forms.Form):
@@ -28,8 +28,16 @@ class UserChangePasswordForm(forms.Form):
 
 
 class UploadFileForm(forms.Form):
-    title = forms.CharField(max_length=50)
+    remarks = forms.CharField(label="备注", required=True,max_length=50)
     file = forms.FileField()
 
-class ImportStudentForm(forms.Form):
-    file = forms.FileField()
+class ImportStudentForm(ModelForm):
+    file = forms.FileField(label="附件",)
+    class Meta:
+        model = Import_Summary
+        fields = ['education','remarks', ]
+
+class SchoolForm(ModelForm):
+    class Meta:
+        model = School
+        fields = ['name','address', 'begin_date','end_date']
