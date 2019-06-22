@@ -15,8 +15,10 @@ urlpatterns = [
     url(r'^user/users/', views.user_list, name='user_list'),
 
     url(r'^school/school_dash', views_school.school_dash, name='school_dash'),
+    url(r'^school/school_list', views_school.school_list, name='school_list'),
     url(r'^school/school_delete/(?P<pk>\d+)/$', views_school.school_delete, name='school_delete'),
     url(r'^school/school_detail/(?P<pk>\d+)/$', views_school.school_detail, name='school_detail'),
+    url(r'^school/school_export/(?P<pk>\d+)/$', views_school.school_export, name='school_export'),
 
     url(r'^edu/org_imports', views_import.org_imports, name='org_imports'),
     url(r'^student_imports', views_import.student_imports, name='student_imports'),

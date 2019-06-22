@@ -41,9 +41,9 @@
         <!-- Logo -->
         <a href="#" class="logo">
             <!-- mini logo for sidebar mini 50x50 pixels -->
-            <span class="logo-mini">票</span>
+            <span class="logo-mini">培训</span>
             <!-- logo for regular state and mobile devices -->
-            <span class="logo-lg"><b>票据管理系统</b></span>
+            <span class="logo-lg"><b>培训管理系统</b></span>
         </a>
         <!-- Header Navbar: style can be found in header.less -->
         <nav class="navbar navbar-static-top">
@@ -51,7 +51,7 @@
             <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
                 <span class="sr-only">Toggle navigation</span>
             </a>
-
+            <a class="btn  btn-flickr"  href="javascript:history.go(-1)"><i class="fa fa">< 返回</i></a>
             <div class="navbar-custom-menu">
                 <ul class="nav navbar-nav">
                     {% if user.is_authenticated %}
@@ -110,9 +110,9 @@
                     </a>
                     <ul class="treeview-menu">
                         <li
-                                {% if '/school_dash' in request.path %}
+                                {% if '/school_list' in request.path %}
                                     class="active"
-                                {% endif %}><a href="{% url 'school_dash' %}"><i class="fa fa-circle-o"></i>期次管理</a>
+                                {% endif %}><a href="{% url 'school_list' %}"><i class="fa fa-circle-o"></i>所有期次</a>
                         </li>
                         <li
                                 {% if '/student_imports' in request.path %}

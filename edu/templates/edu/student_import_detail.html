@@ -6,10 +6,7 @@
 {% endblock %}
 {% block content-header %}
     <h1>
-    <a class="green" href="javascript:history.go(-1)"
-           title="查看信息">
-        < {{ info.education }}
-    </a>
+        {{ info.education }}
 
         <small>{{ info.data_count }}条</small>
         <small>{{ info.pub_date }}</small>
@@ -17,8 +14,8 @@
 
     <form method='POST' action="" id="signupForm"
           onsubmit="return check();">{% csrf_token %}
-      <h3><b>已选择</b> <a id="selected_num">0</a><b>人</b></h3>
-      <input name="ids" value="" style="display: none"
+        <h3><b>已选择</b> <a id="selected_num">0</a><b>人</b></h3>
+        <input name="ids" value="" style="display: none"
                class="textinput textInput form-control"
                id="id_ids" type="text">
         <button type="submit" class="btn btn-danger" id="all_checked">
@@ -85,6 +82,25 @@
                 tags: true
             });
             var t = $('#table_id').DataTable({
+                "columnDefs": [
+                    {"visible": false, "targets": 2}
+                ],
+                "order": [[2, 'asc']],
+                "drawCallback": function (settings) {
+                    var api = this.api();
+                    var rows = api.rows({page: 'current'}).nodes();
+                    var last = null;
+
+                    api.column(2, {page: 'current'}).data().each(function (group, i) {
+                        if (last !== group) {
+                            $(rows).eq(i).before(
+                                '<tr class="group"><td colspan="11">' + group + '</td></tr>'
+                            );
+
+                            last = group;
+                        }
+                    });
+                },
                 'paging': false,
                 'lengthChange': false,
                 'searching': false,

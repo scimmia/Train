@@ -2,10 +2,13 @@ import datetime
 import json
 import os
 from decimal import Decimal
+from io import BytesIO
 
 import xlrd
+import xlsxwriter
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.db.models import Count
+from django.http import HttpResponse
 from django.shortcuts import render
 
 from django.db.models import Aggregate, CharField
@@ -120,3 +123,15 @@ def save_uploaded_excel(f):
         for chunk in f.chunks():
             destination.write(chunk)
     return xlrd.open_workbook(path + 'tmp.xls')
+
+
+def export_excel(f):
+    x_io = BytesIO()
+    work_book = xlsxwriter.Workbook(x_io)
+    work_sheet = work_book.add_worksheet("excel-1")
+    work_book.close()
+    res = HttpResponse()
+    res["Content-Type"] = "application/octet-stream"
+    res["Content-Disposition"] = 'filename="userinfos.xlsx"'
+    res.write(x_io.getvalue())
+    return res

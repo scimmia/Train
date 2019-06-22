@@ -53,7 +53,7 @@ def student_imports(request):
             book = utils.save_uploaded_excel(request.FILES['file'])
             print("The number of worksheets is {0}".format(book.nsheets))
             print("Worksheet name(s): {0}".format(book.sheet_names()))
-            sh = book.sheet_by_index(2)
+            sh = book.sheet_by_index(0)
             print("{0} {1} {2}".format(sh.name, sh.nrows, sh.ncols))
             studentImports = []
             instance.save()
@@ -123,6 +123,6 @@ def student_import_detail(request, pk):
             message = u'删除成功'
         else:
             message = u'请选择至少一条数据'
-    data = Student.objects.filter(inport_info=pk)
+    data = Student.objects.filter(inport_info=pk).order_by('org')
 
     return render(request, 'edu/student_import_detail.html', locals())
