@@ -21,6 +21,7 @@ urlpatterns = [
     url(r'^school/school_export/(?P<pk>\d+)/$', views_school.school_export, name='school_export'),
 
     url(r'^edu/org_imports', views_import.org_imports, name='org_imports'),
+    url(r'^edu/class_formats', views_import.class_formats, name='class_formats'),
     url(r'^student_imports', views_import.student_imports, name='student_imports'),
     url(r'^student_import_delete/(?P<pk>\d+)$', views_import.student_import_delete, name='student_import_delete'),
     url(r'^student_import_detail/(?P<pk>\d+)/$', views_import.student_import_detail, name='student_import_detail'),

@@ -1,7 +1,9 @@
 import os
 from datetime import datetime
+from io import BytesIO
 
 import xlrd
+import xlsxwriter
 from django.contrib.auth.models import User
 from django.shortcuts import render, redirect
 from django.http import HttpResponse, HttpResponseRedirect
@@ -41,6 +43,59 @@ def org_imports(request):
             if len(orgs) > 0:
                 Org.objects.bulk_create(orgs)
             return HttpResponse("Hello, world. You're at the polls index.")
+    else:
+        form = UploadFileForm()
+    return render(request, 'edu/org_imports.html', {'form': form})
+
+def class_formats(request):
+    if request.method == 'POST':
+        form = UploadFileForm(request.POST, request.FILES)  # 注意获取数据的方式
+        if form.is_valid():
+            list1 = ['晨曦', '晨光', '曙光', '朝阳', '旭日']
+            x_io = BytesIO()
+            work_book = xlsxwriter.Workbook(x_io)
+            head_format = work_book.add_format({
+                'font_size': '16',
+                'bold': 1,
+                'border': 1,
+                'align': 'center',
+                'valign': 'vcenter', })
+            merge_format = work_book.add_format({
+                'font_size': '12',
+                'bold': 1,
+                'border': 1,
+                'align': 'center',
+                'valign': 'vcenter', })
+            normal_format = work_book.add_format({
+                'font_size': '12',
+                'border': 1,
+                'align': 'center',
+                'valign': 'vcenter', })
+            book = utils.save_uploaded_excel(request.FILES['file'])
+            sheets = book.sheets()
+            for sheet in sheets:
+                name = sheet.name
+                print(sheet.name)
+                ws = work_book.add_worksheet(name)
+                ws.default_row_height = 20
+                if name in list1:
+                    ws.set_column('A:F', 18)
+                    for rx in range(sheet.nrows):
+                        row = (sheet.row_values(rx))
+                        ws.write_column(rx, 0, row)
+                elif name in ['刘建光','班主任']:
+                    continue
+                else:
+                    for rx in range(sheet.nrows):
+                        row = (sheet.row_values(rx))
+                        ws.write_column(rx, 0, row)
+
+            work_book.close()
+            res = HttpResponse()
+            res["Content-Type"] = "application/octet-stream"
+            res["Content-Disposition"] = 'filename="userinfos.xlsx"'
+            res.write(x_io.getvalue())
+            return res
     else:
         form = UploadFileForm()
     return render(request, 'edu/org_imports.html', {'form': form})
